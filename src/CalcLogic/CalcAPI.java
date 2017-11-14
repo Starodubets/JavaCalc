@@ -5,9 +5,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class CalcAPI
+public class CalcAPI implements LibI
 {
-	public static int Calc(int a,int b,String op)
+	public int Calc(int a,int b,String op)
 	{
 
 		String opp = "+-/*";

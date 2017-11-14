@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import CalcLogic.CalcAPI;
+import CalcLogic.LibI;
+import CalcLogic.MockLIB;
 
 
 public class CPanel extends JPanel 
@@ -82,8 +84,9 @@ public class CPanel extends JPanel
 		    }
 	        else if(caption == "=")
 	        {
+	        	LibI calc = new MockLIB();
 	        	int b = Integer.valueOf(text_field.getText());
-				int result = CalcAPI.Calc(a,b,op);
+				int result = calc.Calc(a,b,op);
 				text_field.setText("" + result);
 	        }
 	        else
