@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="assertj-core-3.3.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/assertj-core-3.3.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/assertj-swing-3.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/fest-util-1.2.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
