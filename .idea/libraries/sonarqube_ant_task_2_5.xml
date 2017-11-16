@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="sonarqube-ant-task-2.5">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/sonarqube-ant-task-2.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

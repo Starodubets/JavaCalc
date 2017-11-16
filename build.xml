@@ -112,8 +112,24 @@
     <pathelement location="${basedir}/junit-4.10.jar"/>
   </path>
   
+  <path id="library.sonarqube-ant-task-2.5.classpath">
+    <pathelement location="${basedir}/sonarqube-ant-task-2.5.jar"/>
+  </path>
+  
   
   <!-- Application Server Libraries -->
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
   
   <!-- Modules -->
   
@@ -144,6 +160,7 @@
     <path refid="library.assertj-swing-3.2.0.classpath"/>
     <path refid="library.fest-util-1.2.5.classpath"/>
     <path refid="library.junit-4.10.classpath"/>
+    <path refid="library.sonarqube-ant-task-2.5.classpath"/>
   </path>
   
   <path id="calcwb.runtime.production.module.classpath">
@@ -154,6 +171,7 @@
     <path refid="library.assertj-swing-3.2.0.classpath"/>
     <path refid="library.fest-util-1.2.5.classpath"/>
     <path refid="library.junit-4.10.classpath"/>
+    <path refid="library.sonarqube-ant-task-2.5.classpath"/>
   </path>
   
   <path id="calcwb.module.classpath">
@@ -165,6 +183,7 @@
     <path refid="library.assertj-swing-3.2.0.classpath"/>
     <path refid="library.fest-util-1.2.5.classpath"/>
     <path refid="library.junit-4.10.classpath"/>
+    <path refid="library.sonarqube-ant-task-2.5.classpath"/>
   </path>
   
   <path id="calcwb.runtime.module.classpath">
@@ -175,6 +194,7 @@
     <path refid="library.assertj-swing-3.2.0.classpath"/>
     <path refid="library.fest-util-1.2.5.classpath"/>
     <path refid="library.junit-4.10.classpath"/>
+    <path refid="library.sonarqube-ant-task-2.5.classpath"/>
   </path>
   
   
@@ -201,15 +221,15 @@
   
   <target name="compile.module.calcwb" depends="compile.module.calcwb.production,compile.module.calcwb.tests" description="Compile module CalcWB"/>
   
-  <target name="compile.module.calcwb.production" description="Compile module CalcWB; production classes">
+  <target name="compile.module.calcwb.production" depends="register.custom.compilers" description="Compile module CalcWB; production classes">
     <mkdir dir="${calcwb.output.dir}"/>
-    <javac destdir="${calcwb.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.calcwb}/javac">
+    <javac2 destdir="${calcwb.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.calcwb}/javac">
       <compilerarg line="${compiler.args.calcwb}"/>
       <bootclasspath refid="calcwb.module.bootclasspath"/>
       <classpath refid="calcwb.module.production.classpath"/>
       <src refid="calcwb.module.sourcepath"/>
       <patternset refid="excluded.from.compilation.calcwb"/>
-    </javac>
+    </javac2>
     
     <copy todir="${calcwb.output.dir}">
       <fileset dir="${module.calcwb.basedir}/src">
@@ -219,15 +239,15 @@
     </copy>
   </target>
   
-  <target name="compile.module.calcwb.tests" depends="compile.module.calcwb.production" description="compile module CalcWB; test classes" unless="skip.tests">
+  <target name="compile.module.calcwb.tests" depends="register.custom.compilers,compile.module.calcwb.production" description="compile module CalcWB; test classes" unless="skip.tests">
     <mkdir dir="${calcwb.testoutput.dir}"/>
-    <javac destdir="${calcwb.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.calcwb}/javac">
+    <javac2 destdir="${calcwb.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.calcwb}/javac">
       <compilerarg line="${compiler.args.calcwb}"/>
       <bootclasspath refid="calcwb.module.bootclasspath"/>
       <classpath refid="calcwb.module.classpath"/>
       <src refid="calcwb.module.test.sourcepath"/>
       <patternset refid="excluded.from.compilation.calcwb"/>
-    </javac>
+    </javac2>
     
     <copy todir="${calcwb.testoutput.dir}">
       <fileset dir="${module.calcwb.basedir}/Test">
